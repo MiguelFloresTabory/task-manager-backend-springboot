@@ -31,7 +31,6 @@ public class TaskServiceI implements TaskService {
     public List<TaskResponseDTO> getAllTasksByFilters(TaskFilter taskFilter) {
         List<Task> tasks =
                 taskRepository.findAll(TaskSpecification.filter(taskFilter));
-
         return tasks.stream()
                 .map(taskMapper::toResponseDto)
                 .collect(Collectors.toList());

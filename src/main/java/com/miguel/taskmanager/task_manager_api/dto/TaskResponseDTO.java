@@ -1,4 +1,5 @@
 package com.miguel.taskmanager.task_manager_api.dto;
+import com.miguel.taskmanager.task_manager_api.entity.TaskPriority;
 import lombok.Data;
 import java.time.Instant;
 @Data
@@ -11,7 +12,7 @@ public class TaskResponseDTO {
     private Instant createdAt;
     private Instant updatedAt;
     private Instant due;
-    private String taskPriority;
+    private TaskPriority taskPriority;
 
 
 }

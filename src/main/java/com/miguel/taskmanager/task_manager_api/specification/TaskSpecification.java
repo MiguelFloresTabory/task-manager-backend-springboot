@@ -2,6 +2,7 @@ package com.miguel.taskmanager.task_manager_api.specification;
 
 import com.miguel.taskmanager.task_manager_api.dto.TaskFilter;
 import com.miguel.taskmanager.task_manager_api.entity.Task;
+import com.miguel.taskmanager.task_manager_api.entity.TaskPriority;
 import jakarta.persistence.criteria.Predicate;
 import org.springframework.data.jpa.domain.Specification;
 
@@ -31,9 +32,10 @@ public final class TaskSpecification {
 
             if (filter.getPriorities() != null && filter.getPriorities().length > 0) {
 
-                List<String> validPriorities =
+                List<TaskPriority> validPriorities =
                         List.of(filter.getPriorities()).stream()
                                 .filter(Objects::nonNull)
+                                .map(TaskPriority::valueOf)
                                 .toList();
 
                 if (!validPriorities.isEmpty()) {
