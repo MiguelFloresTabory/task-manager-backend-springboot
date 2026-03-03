@@ -86,5 +86,22 @@ public class AuthServiceI implements AuthService {
         return new TokenResponse(accessToken, refreshToken);
 
     }
+    // --- LOGOUT ---
+    public void logout(String authHeader) {
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+            throw new IllegalArgumentException("Authorization header missing or invalid");
+        }
+
+        String jwtToken = authHeader.substring(7);
+
+        Token token = tokenRepository.findByToken(jwtToken)
+                .orElseThrow(() -> new IllegalArgumentException("Token not found"));
+
+        // Revocar y expirar el token
+        token.setRevoked(true);
+        token.setExpired(true);
+        tokenRepository.save(token);
+    }
+
 
 }

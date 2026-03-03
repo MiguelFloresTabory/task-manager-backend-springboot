@@ -3,12 +3,13 @@ package com.miguel.taskmanager.task_manager_api.controller;
 import com.miguel.taskmanager.task_manager_api.dto.auth.LoginRequest;
 import com.miguel.taskmanager.task_manager_api.dto.auth.RegisterRequest;
 import com.miguel.taskmanager.task_manager_api.dto.auth.TokenResponse;
-import com.miguel.taskmanager.task_manager_api.service.AuthService;
 import com.miguel.taskmanager.task_manager_api.service.impl.AuthServiceI;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 @RestController
 @RequestMapping("api/auth")
@@ -31,6 +32,13 @@ public class AuthController {
     public ResponseEntity<TokenResponse> refreshToken(@RequestHeader(HttpHeaders.AUTHORIZATION) final String authHeader){
         final TokenResponse token = service.refreshToken(authHeader);
         return ResponseEntity.ok(token);
+    }
+
+    @PostMapping("/logout")
+    public ResponseEntity<Map<String, String>> logout(
+            @RequestHeader(name = HttpHeaders.AUTHORIZATION) String authHeader) {
+        service.logout(authHeader);
+        return ResponseEntity.ok(Map.of("message", "Logout successful"));
     }
 
 
