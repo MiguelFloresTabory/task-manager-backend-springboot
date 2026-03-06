@@ -49,13 +49,27 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         }
         final String jwtToken = authHeader.substring(7);
         final String userEmail = jwtService.extractUsername(jwtToken);
+        if(userEmail == "JWT Expired"){
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            response.setContentType("application/json");
+            response.getWriter().write("{\"servererror\":\"token_expired\"}");
+            return;
+
+        }
+
         if(userEmail == null){
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            response.setContentType("application/json");
+            response.getWriter().write("{\"servererror\":\"auth_error\"}");
             return;
         }
         final Token  token = tokenRepository.findByToken(jwtToken)
                 .orElse(null);
         if(token == null || token.isExpired() || token.isRevoked()){
-            filterChain.doFilter(request,response);
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            response.setContentType("application/json");
+            response.getWriter().write("{\"servererror\": \"invalid_token\"}");
+
             return;
         }
         final UserDetails userDetails = this.userDetailsService.loadUserByUsername(userEmail);
@@ -65,7 +79,12 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             return;
         }
         final boolean isTokenValid = jwtService.isTokenValid(jwtToken, user.get());
-        if(!isTokenValid) return;
+        if(!isTokenValid){
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            response.setContentType("application/json");
+            response.getWriter().write("{\"error\":\"invalid_token\"}");
+            return;
+        }
         final var authToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
         authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
         SecurityContextHolder.getContext().setAuthentication(authToken);

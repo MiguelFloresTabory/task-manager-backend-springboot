@@ -1,5 +1,6 @@
 package com.miguel.taskmanager.task_manager_api.entity;
 
+import com.miguel.taskmanager.task_manager_api.entity.enums.TaskPriority;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;

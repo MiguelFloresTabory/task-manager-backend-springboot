@@ -24,11 +24,16 @@ public class User {
     public Long id;
     @Column(name = "name", nullable = false)
     private String name;
+    @Column(name = "dni", nullable = false, unique = true)
+    private String dni;
+    @Column(name = "number", nullable = false)
+    private String number;
     @Column(name = "email", nullable = false, unique = true)
     private String email;
     @Column(name = "password", nullable = false)
     private String password;
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
-    private List<Token> token;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "role_id")
+    private Role role;
 }

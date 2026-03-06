@@ -2,7 +2,7 @@ package com.miguel.taskmanager.task_manager_api.specification;
 
 import com.miguel.taskmanager.task_manager_api.dto.TaskFilter;
 import com.miguel.taskmanager.task_manager_api.entity.Task;
-import com.miguel.taskmanager.task_manager_api.entity.TaskPriority;
+import com.miguel.taskmanager.task_manager_api.entity.enums.TaskPriority;
 import jakarta.persistence.criteria.Predicate;
 import org.springframework.data.jpa.domain.Specification;
 

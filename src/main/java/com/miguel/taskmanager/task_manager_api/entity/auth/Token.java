@@ -17,7 +17,7 @@ public class Token {
         BEARER
     }
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long id;
     @Column(unique = true)
     public String token;

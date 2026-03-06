@@ -1,7 +1,9 @@
 package com.miguel.taskmanager.task_manager_api.service.impl;
 
+import com.miguel.taskmanager.task_manager_api.entity.Task;
 import com.miguel.taskmanager.task_manager_api.entity.User;
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
@@ -24,12 +26,17 @@ public class JwtService {
     private Long refreshExpiration;
 
     public String extractUsername(final String token){
-        final Claims jwtToken  = Jwts.parser()
-                .verifyWith(getSignInKey())
-                .build()
-                .parseSignedClaims(token)
-                .getPayload();
-        return jwtToken.getSubject();
+          try {Claims jwtToken  = Jwts.parser()
+                      .verifyWith(getSignInKey())
+                      .build()
+                      .parseSignedClaims(token)
+                      .getPayload();
+              return jwtToken.getSubject();
+          }catch (ExpiredJwtException err){
+            return "JWT Expired";
+          }catch (Exception err){
+              return null;
+          }
     }
 
     public String generateToken(final User user) {

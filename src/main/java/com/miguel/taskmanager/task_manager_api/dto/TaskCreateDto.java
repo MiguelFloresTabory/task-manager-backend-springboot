@@ -1,6 +1,6 @@
 package com.miguel.taskmanager.task_manager_api.dto;
 
-import com.miguel.taskmanager.task_manager_api.entity.TaskPriority;
+import com.miguel.taskmanager.task_manager_api.entity.enums.TaskPriority;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

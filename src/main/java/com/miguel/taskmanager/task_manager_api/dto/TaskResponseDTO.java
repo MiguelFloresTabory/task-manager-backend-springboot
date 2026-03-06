@@ -1,5 +1,5 @@
 package com.miguel.taskmanager.task_manager_api.dto;
-import com.miguel.taskmanager.task_manager_api.entity.TaskPriority;
+import com.miguel.taskmanager.task_manager_api.entity.enums.TaskPriority;
 import lombok.Data;
 import java.time.Instant;
 @Data
