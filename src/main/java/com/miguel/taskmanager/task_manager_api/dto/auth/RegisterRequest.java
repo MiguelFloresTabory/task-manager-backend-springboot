@@ -1,5 +1,6 @@
 package com.miguel.taskmanager.task_manager_api.dto.auth;
 
+import com.miguel.taskmanager.task_manager_api.entity.enums.RoleEnum;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,6 +17,7 @@ public class RegisterRequest {
     private String password;
     private String dni;
     private String number;
+    private RoleEnum role;
 
 }
 

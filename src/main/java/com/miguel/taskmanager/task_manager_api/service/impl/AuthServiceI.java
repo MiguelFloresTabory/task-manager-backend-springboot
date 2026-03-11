@@ -42,8 +42,14 @@ public class AuthServiceI implements AuthService {
               .password(passwordEncoder.encode(request.getPassword()))
               .build();
       //añadimos el rol
-      Role role = roleRepository.findByName(RoleEnum.USER).orElseThrow(() ->   new ResponseStatusException(HttpStatus.UNAUTHORIZED, "no_role"));
-      user.setRole(role);
+        if(request.getRole() == null){
+            Role role = roleRepository.findByName(RoleEnum.USER).orElseThrow(() ->   new ResponseStatusException(HttpStatus.UNAUTHORIZED, "no_role"));
+            user.setRole(role);
+        }else{
+            Role role = roleRepository.findByName(request.getRole()).orElseThrow(() ->   new ResponseStatusException(HttpStatus.UNAUTHORIZED, "no_role"));
+            user.setRole(role);
+        }
+
       User saveUser = userRepository.save(user);
       String jwtToken = jwtService.generateToken(user);
       var refreshToken = jwtService.generateRefreshToken(user);

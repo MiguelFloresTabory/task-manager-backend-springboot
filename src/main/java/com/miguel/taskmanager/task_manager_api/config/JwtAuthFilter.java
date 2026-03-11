@@ -49,7 +49,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         }
         final String jwtToken = authHeader.substring(7);
         final String userEmail = jwtService.extractUsername(jwtToken);
-        if(userEmail == "JWT Expired"){
+        if(userEmail.equals( "JWT Expired")){
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             response.setContentType("application/json");
             response.getWriter().write("{\"servererror\":\"token_expired\"}");

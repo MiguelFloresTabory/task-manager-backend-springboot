@@ -3,6 +3,7 @@ package com.miguel.taskmanager.task_manager_api.config;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -28,8 +29,25 @@ public class SecurityConfig {
                 .cors(cors -> {})
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(req -> req
-                        .requestMatchers("/api/auth/**")
-                        .permitAll()
+                        .requestMatchers("/api/auth/**").permitAll()
+
+                        //.requestMatchers("/api/tasks/**").hasAnyRole("USER","ADMIN")
+                        // TASKS
+                        .requestMatchers(HttpMethod.GET,"/api/task/**")
+                        .hasAnyRole("ADMIN")
+
+                        .requestMatchers(HttpMethod.POST,"/api/task/**")
+                        .hasRole("ADMIN")
+
+                        .requestMatchers(HttpMethod.DELETE,"/api/task/**")
+                        .hasRole("ADMIN")
+
+                        .requestMatchers(HttpMethod.PUT,"/api/task/**")
+                        .hasRole("ADMIN")
+
+                        .requestMatchers(HttpMethod.PATCH,"/api/task/**")
+                        .hasRole("ADMIN")
+
                         .anyRequest()
                         .authenticated()
                 )
